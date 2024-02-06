@@ -1,0 +1,4 @@
+python-dotenv
+py-cord
+asyncio
+g4f
