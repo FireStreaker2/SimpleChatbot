@@ -65,4 +65,16 @@ async def start(ctx):
         await ctx.respond("You must have administrator to set the channel!")
 
 
+@bot.slash_command(description="Directly ask the bot a question")
+async def ask(ctx, question):
+    await ctx.defer()
+
+    response = await g4f.ChatCompletion.create_async(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": question}],
+    )
+
+    await ctx.respond(response)
+
+
 bot.run(os.getenv("TOKEN"))
