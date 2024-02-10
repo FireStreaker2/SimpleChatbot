@@ -57,12 +57,28 @@ async def on_message(message):
 
 @bot.slash_command(description="Set the current channel to be the talking channel")
 async def start(ctx):
+    await ctx.defer()
+
     if ctx.author.guild_permissions.administrator:
         channels[ctx.guild.id] = ctx.channel.id
-        await ctx.respond(f"Succesfully set {ctx.channel.name}")
+        embed = discord.Embed(
+            title="Channel Setting", color=discord.Color.green()
+        ).add_field(
+            name="Success",
+            value=f"Succesfully set <#{ctx.channel.id}> for {ctx.guild.name}",
+            inline=False,
+        )
 
     else:
-        await ctx.respond("You must have administrator to set the channel!")
+        embed = discord.Embed(
+            title="Channel Setting", color=discord.Color.red()
+        ).add_field(
+            name="Error",
+            value="You must have administrator in order to set this guild's channel!",
+            inline=False,
+        )
+
+    await ctx.respond(embed=embed)
 
 
 @bot.slash_command(description="Directly ask the bot a question")
